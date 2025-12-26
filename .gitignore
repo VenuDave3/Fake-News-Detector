@@ -1,0 +1,16 @@
+__pycache__/
+.ipynb_checkpoints/
+*.pyc
+*.pyo
+*.pyd
+env/
+.venv/
+venv/
+*.sqlite3
+*.egg-info/
+dist/
+build/
+# model artifacts (uncomment if you don't want pickles in git)
+# final1.pickle
+# final2.picklefinal2.pkl
+*.pkl

@@ -10,16 +10,34 @@ import newspaper
 from newspaper import *
 import urllib
 import nltk
-import summ
+import summarizer_custom as summ
 #Loading Flask and assigning the model variable
 app = Flask(__name__)
 CORS(app)
 app=flask.Flask(__name__,template_folder='templates')
 
-with open('final1.pickle', 'rb') as handle:
-	model1 = pickle.load(handle)
-with open('final2.pickle', 'rb') as handle:
-	model2 = pickle.load(handle)
+model1 = None
+model2 = None
+ROOT = os.path.dirname(os.path.abspath(__file__))
+try:
+	p1 = os.path.join(ROOT, 'final1.pickle')
+	if os.path.exists(p1):
+		with open(p1, 'rb') as handle:
+			model1 = pickle.load(handle)
+	else:
+		print('Warning: final1.pickle not found; category predictions will be disabled.')
+except Exception as e:
+	print('Error loading final1.pickle:', e)
+
+try:
+	p2 = os.path.join(ROOT, 'final2.pickle')
+	if os.path.exists(p2):
+		with open(p2, 'rb') as handle:
+			model2 = pickle.load(handle)
+	else:
+		print('Warning: final2.pickle not found; fake/real predictions will be disabled.')
+except Exception as e:
+	print('Error loading final2.pickle:', e)
 @app.route('/')
 def welcome():
     return render_template('Welcome.html')
@@ -46,8 +64,18 @@ def predict():
 		news = article.text
 		title = article.title
 			    #Passing the news article to the model and returing whether it is Fake or Real
-		pred1 = model1.predict([news])
-		pred2 = model2.predict([news])
+		pred1 = ['UNKNOWN']
+		pred2 = ['UNKNOWN']
+		if model1 is not None:
+			try:
+				pred1 = model1.predict([news])
+			except Exception:
+				pred1 = ['UNKNOWN']
+		if model2 is not None:
+			try:
+				pred2 = model2.predict([news])
+			except Exception:
+				pred2 = ['UNKNOWN']
 		if pred1[0]=='tech':
 			pred1[0]='TECHNOLOGY'
 		elif pred1[0]=='sport':
@@ -72,10 +100,35 @@ def predict():
 
 @app.route('/predict2', methods=['POST'])
 def predict2():
-    text = request.form['news']
-    pred1 = model1.predict([text])
-    pred2 = model2.predict([text])
-    return render_template('Result.html',prediction_text1='The news is {}'.format(pred2[0]),prediction_text2='{}'.format(pred1[0]))
+	text = request.form.get('news', '')
+	# default number of summary sentences (can be overridden by 'Number' form field)
+	try:
+		number = int(request.form.get('Number', 3))
+	except Exception:
+		number = 3
+
+	pred1 = ['UNKNOWN']
+	pred2 = ['UNKNOWN']
+	if model1 is not None:
+		try:
+			pred1 = model1.predict([text])
+		except Exception:
+			pred1 = ['UNKNOWN']
+	if model2 is not None:
+		try:
+			pred2 = model2.predict([text])
+		except Exception:
+			pred2 = ['UNKNOWN']
+
+	# generate a short extractive summary for pasted text
+	summary = ''
+	try:
+		summary = summ.GetText('', text, number)
+	except Exception:
+		summary = ''
+
+	return render_template('Result.html', prediction_text1='The news is {}'.format(pred2[0]),
+						   prediction_text2='{}'.format(pred1[0]), summary_text=summary)
 
 
 if __name__=="__main__":

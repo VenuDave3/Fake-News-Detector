@@ -3,29 +3,31 @@
 <head>
   <meta charset="UTF-8">
   <title>Welcome</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
   <style>
-    body{
-      background-image: url("https://images.unsplash.com/photo-1584713503693-bb386ec95cf2?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MTl8fG5ld3NwYXBlciUyMHdoaXRlfGVufDB8fDB8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"), url("https://images.unsplash.com/photo-1504465188792-96c4e8752e8e?ixid=MXwxMjA3fDB8MHxzZWFyY2h8NTB8fHNvY2lhbCUyMG1lZGlhJTIwbmV3c3xlbnwwfHwwfA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60");
-      background-position : 0% 0%, 100% 0%;
-      background-repeat: no-repeat,no-repeat;
-      background-size: 683px 660px,682px 660px;
-    }
+    body { font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Arial; background: linear-gradient(180deg,#f5f7fb,#eef2f6); color:#222; }
+    .container { max-width: 900px; margin: 4% auto; padding: 2rem; background: #fff; border-radius: 10px; box-shadow: 0 8px 30px rgba(13,38,59,0.08);} 
+    h1 { margin-top: 0; }
+    .lead { color:#555; line-height:1.45 }
+    .cta { margin-top: 1.25rem }
+    .btn { display:inline-block; padding:.6rem 1rem; background:#1976d2; color:white; border-radius:6px; text-decoration:none }
   </style>
 </head>
 <body>
-<div class="container">
-  <div style="margin-top: 50px; text-align: center;">
-  <div style="margin-top: 0px; backdrop-filter: blur(10px);">
-  <h1 ><b>Introduction</b></h1> 
-  <h3 >News Interpreter is an user friendly application which has the two main features namely "Fake News Detection" and "News Summarizer" <p>Fake News term that has come to mean different things to different people. At its core, we are defining “fake news” as those news stories that are false: the story itself is fabricated, with no verifiable facts, sources or quotes. Sometimes these stories may be propaganda that is intentionally designed to mislead the reader, or may be designed as “clickbait” written for economic incentives (the writer profits on the number of people who click on the story). In recent years, fake news stories have platform via social media, in part because they are so easily and quickly shared online.</p><p>News Summarizer is a feature in which a news is summarized based on the news article and it saves the users time and help the user to understand the news before reading the whole news article and it also saves the user to get irritated from the advertisements which often appeared on news websites.</p></h3>
+  <div class="container">
+    <h1>News Interpreter</h1>
+    <p class="lead">A lightweight demo that performs two tasks: automatic news summarization, and a fake-vs-real classifier built using NLP and scikit-learn. Use the demo to paste article text or provide a URL and get a short summary plus predicted labels.</p>
 
-<h3>Click the below button to proceed</h3>
-</div>
-<form action="http://127.0.0.1:5000/Input">
-    <input type="submit" value="Interprete Your News" />
-</form><br><br>
-</div>
-</div>
-</div>
+    <h3>How it works (brief)</h3>
+    <ul>
+      <li>Preprocesses article text (lowercasing, punctuation removal, stopword filtering).</li>
+      <li>Vectorizes text with CountVectorizer + TF–IDF and classifies using scikit-learn pipelines.</li>
+      <li>Generates short extractive summaries using a compact sentence-scoring approach.</li>
+    </ul>
+
+    <div class="cta">
+      <a class="btn" href="/Input">Try the demo</a>
+    </div>
+  </div>
 </body>
 </html>

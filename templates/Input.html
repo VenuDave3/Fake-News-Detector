@@ -1,49 +1,36 @@
 <!DOCTYPE html>
 <html>
-<!--From https://codepen.io/frytyler/pen/EGdtg-->
 <head>
   <meta charset="UTF-8">
-  <title>Input</title>
-  <!-- <meta http-equiv="refresh" content="15"> -->
+  <title>Interpret News</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <style>
+    body { font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; background: #f7f7f8; color: #222; }
+    .container { max-width: 720px; margin: 6% auto; padding: 2rem; background: #fff; border-radius: 8px; box-shadow: 0 6px 24px rgba(0,0,0,0.08);} 
+    input[type="text"], textarea { width: 100%; padding: .75rem; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; }
+    button { padding: .6rem 1rem; border-radius: 6px; background: #1976d2; color: white; border: none; cursor: pointer; }
+    .muted { color: #666; font-size: .9rem; margin-top: .5rem }
+  </style>
 </head>
-<style type="text/css">
-  body { 
-      background-image: url("https://images.unsplash.com/photo-1560762484-813fc97650a0?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MTR8fGNvbXB1dGVyfGVufDB8fDB8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60");
-      background-position : 50% 0%;
-      background-repeat: no-repeat;
-      background-size: cover;
-}
-.login { 
-   text-align: center;
-   margin-top: 20%;
-   backdrop-filter: blur(10px);
-}
-input[type="text"]::placeholder{
-  text-align: center;
-  color: black;
-  font-family: sans-serif;
-}
-textarea[name="Description"]::placeholder{
-  text-align: center;
-  color: black;
-  padding-top: 30px;
-  font-family: sans-serif;
-}
-</style>
 <body>
- <div class="login">
-  <form action="{{ url_for('predict')}}"method="post">
-    <input style="width: 550px;" type="text" name="news" placeholder="Enter the news URL here" required="required"><br><br>
-    <input style="text-align: center; width: 550px;" type="text" name="Number" placeholder="Enter the number of sentences for the summary of news"><br><br>
-    <button type="submit" class="btn btn-primary btn-block btn-large">Interpret</button>
-  </form>
-  {{ prediction_text }}
-  <form action="{{ url_for('predict2')}}"method="post">
-    <textarea style="margin-top: 7%;" rows="5" cols="50" name="news" placeholder="Enter the News text here"></textarea><br><br>
-    <button type="submit" class="btn btn-primary btn-block btn-large">Interpret</button>
-  </form>
- </div>
+  <div class="container">
+    <h2>Interpret News</h2>
+    <form action="{{ url_for('predict') }}" method="post">
+      <input type="text" name="news" placeholder="Enter the news URL here" required>
+      <div style="height:12px"></div>
+      <input type="text" name="Number" placeholder="Number of sentences for the summary (optional)">
+      <div style="height:12px"></div>
+      <button type="submit">Interpret</button>
+    </form>
+    <div class="muted">{{ prediction_text }}</div>
 
+    <hr style="margin:1.5rem 0">
 
+    <form action="{{ url_for('predict2') }}" method="post">
+      <textarea rows="6" name="news" placeholder="Or paste the news text here"></textarea>
+      <div style="height:12px"></div>
+      <button type="submit">Interpret</button>
+    </form>
+  </div>
 </body>
 </html>

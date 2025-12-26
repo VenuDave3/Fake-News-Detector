@@ -1,2 +1,0 @@
-include *.md *.txt *.rst *.json
-include summarizer/trainer/*.txt summarizer/trainer/*.json
