@@ -11,3 +11,9 @@ venv/
 dist/
 build/
 # model artifacts: pickles are tracked (included) in this repository per user preference
+
+# local artifacts and runtime files
+artifacts/
+.DS_Store
+.env
+.pytest_cache/
